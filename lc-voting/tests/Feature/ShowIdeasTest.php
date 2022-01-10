@@ -1,4 +1,5 @@
-<!-- namespace Tests\Feature;
+<?php
+ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Idea;
@@ -128,4 +129,4 @@ class ShowIdeasTest extends TestCase
 
         $this->assertEquals(route('idea.index'), $response['backUrl']);
     }
-} -->
+}
