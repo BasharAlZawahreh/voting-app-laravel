@@ -104,4 +104,8 @@
 
 
     </div> <!-- end ideas-container -->
+
+    <div class="my-8">
+        {{$ideas->links()}}
+    </div>
 </x-app-layout>
