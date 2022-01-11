@@ -16,12 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        Status::factory()->create(['name' => 'Open']);
-        Status::factory()->create(['name' => 'Closed']);
-        Status::factory()->create(['name' => 'Considering']);
-        Status::factory()->create(['name' => 'openNow']);
-        Status::factory()->create(['name' => 'openLater']);
+        Status::factory()->create(['name' => 'Open','classes'=>'bg-gray-200']);
+        Status::factory()->create(['name' => 'Closed','classes'=>'bg-red text-white']);
+        Status::factory()->create(['name' => 'Considering','classes'=>'bg-gray-200']);
+        Status::factory()->create(['name' => 'openNow','classes'=>'bg-blue text-white']);
+        Status::factory()->create(['name' => 'openLater','classes'=>'bg-blue text-white']);
 
         Idea::factory(30)->create();
     }
