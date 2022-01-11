@@ -16,8 +16,9 @@ class CreateIdeasTable extends Migration
         Schema::create('ideas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('title');
             $table->foreignId('category_id')->constrained();
+            $table->foreignId('status_id')->constrained();
+            $table->string('title');
             $table->string('slug');
             $table->text('description');
             $table->timestamps();
