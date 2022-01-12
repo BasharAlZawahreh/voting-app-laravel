@@ -46,9 +46,32 @@ class Idea extends Model
         if (!$user) {
             return false;
         }
-        
+
         return Vote::where('user_id', $user->id)
                     ->where('idea_id', $this->id)
                     ->exists();
+    }
+
+    public function vote(){
+        if(!auth()->check()){
+            return redirect(route('login'));
+        }
+
+        Vote::create([
+            'idea_id'=>$this->id,
+            'user_id'=>auth()->id()
+        ]);
+    }
+
+    public function unvote()
+    {
+        if(!auth()->check()){
+            return redirect(route('login'));
+        }
+
+        Vote::where('idea_id',$this->id)
+        ->where('user_id',auth()->id())
+        ->first()
+        ->delete();
     }
 }

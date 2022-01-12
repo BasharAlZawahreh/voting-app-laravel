@@ -31,8 +31,7 @@
 
     <div class="ideas-container space-y-6 my-8">
         @foreach ($ideas as $idea)
-
-          <livewire:idea-index :idea="$idea"/>
+          <livewire:idea-index :idea="$idea" />
         @endforeach
 
 
