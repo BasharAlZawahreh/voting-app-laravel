@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreIdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Idea;
+use App\Models\Vote;
+use Psy\Command\WhereamiCommand;
 
 class IdeaController extends Controller
 {
@@ -15,11 +17,22 @@ class IdeaController extends Controller
      */
     public function index()
     {
+        //         return Destination::addSelect(['last_flight' => Flight::select('name')
+        //     ->whereColumn('destination_id', 'destinations.id')
+        //     ->orderByDesc('arrived_at')
+        //     ->limit(1)
+        // ])->get();
+
         return view('idea.index', [
             'ideas' => Idea::with('user', 'category', 'status')
-            ->withCount('votes')
-            ->orderBy('id', 'desc')
-            ->simplePaginate(Idea::PAGINATION_COUNT)
+                ->addSelect([
+                    'voted_by_user' => Vote::select('id')
+                        ->where('user_id', auth()->id())
+                        ->whereColumn('idea_id','ideas.id')
+                ])
+                ->withCount('votes')
+                ->orderBy('id', 'desc')
+                ->simplePaginate(Idea::PAGINATION_COUNT)
         ]);
     }
 
