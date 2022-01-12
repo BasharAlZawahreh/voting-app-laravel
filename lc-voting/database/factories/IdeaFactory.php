@@ -17,10 +17,10 @@ class IdeaFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
-            'category_id' => Category::factory(),
-            'status_id' => $this->faker->numberBetween(1,5),
+            'user_id' => $this->faker->numberBetween(1,20),
+            'category_id' => $this->faker->numberBetween(1,5),
             'title' => ucwords($this->faker->words(4, true)),
+            'status_id' => $this->faker->numberBetween(1,5),
             'description' => $this->faker->paragraph(5),
         ];
     }

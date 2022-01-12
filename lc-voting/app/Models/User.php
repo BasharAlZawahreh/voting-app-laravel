@@ -62,4 +62,8 @@ class User extends Authenticatable
             . $integerToUse
             . '.png';
     }
+
+    public function votes(){
+        return $this->belongsToMany(Vote::class,'votes');
+    }
 }

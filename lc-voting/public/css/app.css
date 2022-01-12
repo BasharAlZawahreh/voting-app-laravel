@@ -728,6 +728,9 @@ select {
 .-mt-px {
   margin-top: -1px;
 }
+.mt-5 {
+  margin-top: 1.25rem;
+}
 .ml-8 {
   margin-left: 2rem;
 }
