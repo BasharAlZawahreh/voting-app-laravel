@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
     {
 
         Category::factory(50)->create();
-
+   
         Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
         Status::factory()->create(['name' => 'Closed', 'classes' => 'bg-red text-white']);
         Status::factory()->create(['name' => 'Considering', 'classes' => 'bg-gray-200']);
-        Status::factory()->create(['name' => 'openNow', 'classes' => 'bg-blue text-white']);
-        Status::factory()->create(['name' => 'openLater', 'classes' => 'bg-blue text-white']);
+        Status::factory()->create(['name' => 'InProgress', 'classes' => 'bg-blue text-white']);
+        Status::factory()->create(['name' => 'Implemented', 'classes' => 'bg-blue text-white']);
 
         User::factory()->create([
             'name' => 'Bashar',

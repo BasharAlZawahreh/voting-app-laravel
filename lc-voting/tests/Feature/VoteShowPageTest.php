@@ -228,5 +228,4 @@ class VoteShowPageTest extends TestCase
             'idea_id' => $idea->id,
         ]);
     }
-    }
 }
