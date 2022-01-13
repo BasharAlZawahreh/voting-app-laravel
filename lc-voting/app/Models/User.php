@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use Hamcrest\Type\IsNumeric;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
         'name',
@@ -25,9 +23,9 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -35,9 +33,9 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -48,22 +46,24 @@ class User extends Authenticatable
         return $this->hasMany(Idea::class);
     }
 
-    public function getAvatar()
+    public function votes()
     {
-        // $randomInt = rand(1, 36);
-        $firstChar = $this->email[0];
-        $integerToUse = is_numeric($firstChar) ? ord(strtolower($firstChar)) - 21 : ord(strtolower($firstChar)) - 96;
-
-
-        return 'https://www.gravatar.com/avatar/'
-            . md5($this->email)
-            . '?s=200'
-            . '&d=https://s3.amazonaws.com/laracasts/images/forum/avatars/default-avatar-'
-            . $integerToUse
-            . '.png';
+        return $this->belongsToMany(Idea::class, 'votes');
     }
 
-    public function votes(){
-        return $this->morphToMany(Vote::class,'votable');
+    public function getAvatar()
+    {
+        $firstCharacter = $this->email[0];
+
+        $integerToUse = is_numeric($firstCharacter)
+            ? ord(strtolower($firstCharacter)) - 21
+            : ord(strtolower($firstCharacter)) - 96;
+
+        return 'https://www.gravatar.com/avatar/'
+            .md5($this->email)
+            .'?s=200'
+            .'&d=https://s3.amazonaws.com/laracasts/images/forum/avatars/default-avatar-'
+            .$integerToUse
+            .'.png';
     }
 }

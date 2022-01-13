@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'name' => 'Andre',
-            'email' => 'andre_madarang@hotmail.com',
+            'name' => 'Bashar',
+            'email' => 'a@a.com',
         ]);
 
         User::factory(19)->create();
@@ -36,7 +36,11 @@ class DatabaseSeeder extends Seeder
         Status::factory()->create(['name' => 'Implemented', 'classes' => 'bg-green text-white']);
         Status::factory()->create(['name' => 'Closed', 'classes' => 'bg-red text-white']);
 
-        Idea::factory(100)->create();
+        Idea::factory(25)->create(['category_id'=>1]);
+        Idea::factory(25)->create(['category_id'=>2]);
+        Idea::factory(25)->create(['category_id'=>3]);
+        Idea::factory(25)->create(['category_id'=>4]);
+
 
 
         // Generate unique votes. Ensure idea_id and user_id are unique for each row

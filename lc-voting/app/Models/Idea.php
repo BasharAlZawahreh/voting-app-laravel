@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Exceptions\DublicateVoteException;
+use App\Exceptions\DuplicateVoteException;
 use App\Exceptions\VoteNotFoundException;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,11 +11,16 @@ use Illuminate\Database\Eloquent\Model;
 class Idea extends Model
 {
     use HasFactory, Sluggable;
-    protected $guarded = [];
-    const PAGINATION_COUNT = 10;
-    const CATEGORY_TUTORIAL_REQUEST = 'Tutorial Request';
-    const CATEGORY_LARACASTS_FEATURE = 'Laracats Feature';
 
+    const PAGINATION_COUNT = 10;
+
+    protected $guarded = [];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
     public function sluggable(): array
     {
         return [
@@ -42,7 +47,7 @@ class Idea extends Model
 
     public function votes()
     {
-        return $this->morphToMany(User::class, 'votable');
+        return $this->belongsToMany(User::class, 'votes');
     }
 
     public function isVotedByUser(?User $user)
@@ -51,48 +56,33 @@ class Idea extends Model
             return false;
         }
 
-
         return Vote::where('user_id', $user->id)
             ->where('idea_id', $this->id)
             ->exists();
     }
 
-    public function vote()
+    public function vote(User $user)
     {
-        if (!auth()->check()) {
-            return redirect(route('login'));
+        if ($this->isVotedByUser($user)) {
+            throw new DuplicateVoteException;
         }
-
-        if ($this->isVotedByUser(auth()->id())) {
-            throw new DublicateVoteException;
-        }
-
-        $this->votes_count++;
-
 
         Vote::create([
             'idea_id' => $this->id,
-            'user_id' => auth()->id()
+            'user_id' => $user->id,
         ]);
     }
 
-    public function unvote()
+    public function removeVote(User $user)
     {
-        if (!auth()->check()) {
-            return redirect(route('login'));
-        }
-
         $voteToDelete = Vote::where('idea_id', $this->id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user->id)
             ->first();
 
         if ($voteToDelete) {
             $voteToDelete->delete();
-        $this->votes_count--;
-
-        }
-        else{
-            throw new VoteNotFoundException();
+        } else {
+            throw new VoteNotFoundException;
         }
     }
 }
