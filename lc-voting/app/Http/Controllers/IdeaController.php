@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreIdeaRequest;
-use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Idea;
 use App\Models\Vote;
-use Psy\Command\WhereamiCommand;
+use Illuminate\Http\Request;
 
 class IdeaController extends Controller
 {
@@ -33,10 +31,10 @@ class IdeaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreIdeaRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreIdeaRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -51,7 +49,7 @@ class IdeaController extends Controller
     {
         return view('idea.show', [
             'idea' => $idea,
-            'votesCount' => $idea->votes()->count()
+            'votesCount' => $idea->votes()->count(),
         ]);
     }
 
@@ -69,11 +67,11 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateIdeaRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Idea  $idea
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateIdeaRequest $request, Idea $idea)
+    public function update(Request $request, Idea $idea)
     {
         //
     }
