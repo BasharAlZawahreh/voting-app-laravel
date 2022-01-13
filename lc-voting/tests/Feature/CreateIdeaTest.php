@@ -82,7 +82,7 @@ class CreateIdeaTest extends TestCase
             'title' => 'My First Idea'
         ]);
     }
-    
+
     /** @test */
     public function creating_two_ideas_with_same_title_still_works_but_has_different_slugs()
     {

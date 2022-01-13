@@ -13,6 +13,8 @@ class Idea extends Model
     use HasFactory, Sluggable;
     protected $guarded = [];
     const PAGINATION_COUNT = 10;
+    const CATEGORY_TUTORIAL_REQUEST = 'Tutorial Request';
+    const CATEGORY_LARACASTS_FEATURE = 'Laracats Feature';
 
     public function sluggable(): array
     {
@@ -40,7 +42,7 @@ class Idea extends Model
 
     public function votes()
     {
-        return $this->belongsToMany(User::class, 'votes');
+        return $this->morphToMany(User::class, 'votable');
     }
 
     public function isVotedByUser(?User $user)
@@ -48,6 +50,7 @@ class Idea extends Model
         if (!$user) {
             return false;
         }
+
 
         return Vote::where('user_id', $user->id)
             ->where('idea_id', $this->id)
@@ -63,6 +66,9 @@ class Idea extends Model
         if ($this->isVotedByUser(auth()->id())) {
             throw new DublicateVoteException;
         }
+
+        $this->votes_count++;
+
 
         Vote::create([
             'idea_id' => $this->id,
@@ -82,6 +88,8 @@ class Idea extends Model
 
         if ($voteToDelete) {
             $voteToDelete->delete();
+        $this->votes_count--;
+
         }
         else{
             throw new VoteNotFoundException();

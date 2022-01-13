@@ -64,6 +64,6 @@ class User extends Authenticatable
     }
 
     public function votes(){
-        return $this->belongsToMany(Vote::class,'votes');
+        return $this->morphToMany(Vote::class,'votable');
     }
 }
