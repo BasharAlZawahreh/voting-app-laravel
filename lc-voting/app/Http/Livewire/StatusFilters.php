@@ -9,38 +9,30 @@ use Livewire\Component;
 
 class StatusFilters extends Component
 {
-    public $status = 'All';
+    public $status;
     public $statusCount;
-
-
-    protected $queryString = [
-        'status'
-    ];
 
     public function mount()
     {
         $this->statusCount = Status::getCount();
-
+        $this->status = request()->status ?? 'All';
 
         $this->statusAllCount = Idea::where('status_id', 1)->count(); //Open
 
-
-
         if (Route::currentRouteName() === 'idea.show') {
             $this->status = null;
-
-            $this->queryString = [];
         }
     }
 
     public function setStatus($newStatus)
     {
         $this->status = $newStatus;
-        // Route::currentRouteName('');
 
-        //if ($this->getPreviousRouteName() === 'idea.show') {
-        return redirect()->route('idea.index', ['status' => $this->status]);
-        //}
+        $this->emit('queryStringUpdatedStatus', $this->status);
+
+        if ($this->getPreviousRouteName() === 'idea.show') {
+            return redirect()->route('idea.index', ['status' => $this->status]);
+        }
     }
 
     private function getPreviousRouteName()
