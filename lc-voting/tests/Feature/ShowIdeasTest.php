@@ -148,4 +148,53 @@ class ShowIdeasTest extends TestCase
         $response->assertSuccessful();
         $this->assertTrue(request()->path() === 'ideas/my-first-idea-1');
     }
+
+    /** @test */
+    public function in_app_back_button_works_when_index_page_visited_first()
+    {
+        $user = User::factory()->create();
+        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
+        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
+
+        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+        $statusClosed = Status::factory()->create(['name' => 'Closed', 'classes' => 'bg-purple text-white']);
+
+        $ideaOne = Idea::factory()->create([
+            'user_id' => $user->id,
+            'user_id' => $user->id,
+            'title' => 'My First Idea',
+            'category_id' => $categoryOne->id,
+            'status_id' => $statusOpen->id,
+            'description' => 'Description of my first idea',
+        ]);
+
+
+        $response = $this->get('/?category=Category%202&status=Open');
+        $response = $this->get(route('idea.show', $ideaOne));
+        $this->assertStringContainsString('/?category=Category%202&status=Open', $response['backUrl']);
+    }
+
+    /** @test */
+    public function in_app_back_button_works_when_show_page_visited_only()
+    {
+        $user = User::factory()->create();
+        $categoryOne = Category::factory()->create(['name' => 'Category 1']);
+        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
+
+        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+        $statusClosed = Status::factory()->create(['name' => 'Closed', 'classes' => 'bg-purple text-white']);
+
+        $ideaOne = Idea::factory()->create([
+            'user_id' => $user->id,
+            'user_id' => $user->id,
+            'title' => 'My First Idea',
+            'category_id' => $categoryOne->id,
+            'status_id' => $statusOpen->id,
+            'description' => 'Description of my first idea',
+        ]);
+
+
+        $response = $this->get(route('idea.show', $ideaOne));
+        $this->assertEquals(route('idea.index'), $response['backUrl']);
+    }
 }
