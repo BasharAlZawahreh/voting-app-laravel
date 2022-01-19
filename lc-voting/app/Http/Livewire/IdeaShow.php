@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Exceptions\DublicateVoteException;
 use App\Exceptions\VoteNotFoundException;
 use App\Models\Idea;
+use App\Models\User;
 use Livewire\Component;
 
 class IdeaShow extends Component
@@ -18,7 +19,8 @@ class IdeaShow extends Component
     {
         $this->idea = $idea;
         $this->votesCount = $votesCount;
-        $this->hasVoted = $idea->isVotedByUser(auth()->id());
+        $user = User::find(auth()->id());
+        $this->hasVoted = $idea->isVotedByUser($user);
 
     }
 
