@@ -8,15 +8,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class GravatarTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_generate_gravatar_defualt_image_when_no_email_found_first_character_a()
+    public function user_can_generate_gravatar_default_image_when_no_email_found_first_character_a()
     {
         $user = User::factory()->create([
-            'name' => 'Andre',
             'email' => 'afakeemail@fakeemail.com',
         ]);
 
@@ -33,10 +32,9 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function user_can_generate_gravatar_defualt_image_when_no_email_found_first_character_z()
+    public function user_can_generate_gravatar_default_image_when_no_email_found_first_character_z()
     {
         $user = User::factory()->create([
-            'name' => 'Andre',
             'email' => 'zfakeemail@fakeemail.com',
         ]);
 
@@ -53,10 +51,9 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function user_can_generate_gravatar_defualt_image_when_no_email_found_first_character_0()
+    public function user_can_generate_gravatar_default_image_when_no_email_found_first_character_0()
     {
         $user = User::factory()->create([
-            'name' => 'Andre',
             'email' => '0fakeemail@fakeemail.com',
         ]);
 
@@ -73,10 +70,9 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function user_can_generate_gravatar_defualt_image_when_no_email_found_first_character_9()
+    public function user_can_generate_gravatar_default_image_when_no_email_found_first_character_9()
     {
         $user = User::factory()->create([
-            'name' => 'Andre',
             'email' => '9fakeemail@fakeemail.com',
         ]);
 

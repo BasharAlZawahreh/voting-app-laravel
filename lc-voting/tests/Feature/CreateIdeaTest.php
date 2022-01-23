@@ -19,17 +19,19 @@ class CreateIdeaTest extends TestCase
     public function create_idea_form_does_not_show_when_logged_out()
     {
         $response = $this->get(route('idea.index'));
+
         $response->assertSuccessful();
-        $response->assertSee('Please Login to create Idea');
-        $response->assertDontSee('Let us know what you would like and we\'ll take a look over!');
+        $response->assertSee('Please login to create an idea.');
+        $response->assertDontSee('Let us know what you would like and we\'ll take a look over!', false);
     }
 
     /** @test */
-    public function create_idea_form_shows_when_logged_in()
+    public function create_idea_form_does_show_when_logged_in()
     {
         $response = $this->actingAs(User::factory()->create())->get(route('idea.index'));
+
         $response->assertSuccessful();
-        $response->assertDontSee('Please Login to create Idea');
+        $response->assertDontSee('Please login to create an idea.');
         $response->assertSee('Let us know what you would like and we\'ll take a look over!', false);
     }
 
@@ -38,7 +40,7 @@ class CreateIdeaTest extends TestCase
     {
         $this->actingAs(User::factory()->create())
             ->get(route('idea.index'))
-            ->assertSeeLiveWire('create-idea');
+            ->assertSeeLivewire('create-idea');
     }
 
     /** @test */
@@ -60,9 +62,8 @@ class CreateIdeaTest extends TestCase
         $user = User::factory()->create();
 
         $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
 
-        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+        $statusOpen = Status::factory()->create(['name' => 'Open']);
 
         Livewire::actingAs($user)
             ->test(CreateIdea::class)
@@ -72,7 +73,6 @@ class CreateIdeaTest extends TestCase
             ->call('createIdea')
             ->assertRedirect('/');
 
-
         $response = $this->actingAs($user)->get(route('idea.index'));
         $response->assertSuccessful();
         $response->assertSee('My First Idea');
@@ -80,6 +80,11 @@ class CreateIdeaTest extends TestCase
 
         $this->assertDatabaseHas('ideas', [
             'title' => 'My First Idea'
+        ]);
+
+        $this->assertDatabaseHas('votes', [
+            'idea_id' => 1,
+            'user_id' => 1,
         ]);
     }
 
@@ -89,9 +94,8 @@ class CreateIdeaTest extends TestCase
         $user = User::factory()->create();
 
         $categoryOne = Category::factory()->create(['name' => 'Category 1']);
-        $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
 
-        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+        $statusOpen = Status::factory()->create(['name' => 'Open']);
 
         Livewire::actingAs($user)
             ->test(CreateIdea::class)

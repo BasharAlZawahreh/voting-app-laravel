@@ -36,10 +36,10 @@ class DatabaseSeeder extends Seeder
         Status::factory()->create(['name' => 'Implemented', 'classes' => 'bg-green text-white']);
         Status::factory()->create(['name' => 'Closed', 'classes' => 'bg-red text-white']);
 
-        Idea::factory(25)->create(['category_id'=>1]);
-        Idea::factory(25)->create(['category_id'=>2]);
-        Idea::factory(25)->create(['category_id'=>3]);
-        Idea::factory(25)->create(['category_id'=>4]);
+        Idea::factory(25)->existing()->create(['category_id'=>1]);
+        Idea::factory(25)->existing()->create(['category_id'=>2]);
+        Idea::factory(25)->existing()->create(['category_id'=>3]);
+        Idea::factory(25)->existing()->create(['category_id'=>4]);
 
 
 
