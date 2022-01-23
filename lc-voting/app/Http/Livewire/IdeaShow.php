@@ -44,7 +44,7 @@ class IdeaShow extends Component
             $this->hasVoted = false;
         } else {
             try {
-                $this->idea->vote();
+                $this->idea->vote(User::find(auth()->id()));
             } catch (DublicateVoteException $e) {
                 //Do Nothing
             }
