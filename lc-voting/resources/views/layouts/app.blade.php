@@ -102,6 +102,7 @@
             </div>
         </div>
     </main>
+    {{-- @stack('modals') --}}
     <livewire:scripts />
 </body>
 
