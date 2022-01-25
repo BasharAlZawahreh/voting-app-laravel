@@ -13,6 +13,9 @@
         :votesCount="$votesCount"
     />
 
+    <x-notification-success />
+
+    
     {{-- @push('modals') --}}
     {{-- @endpush --}}
 
