@@ -10,6 +10,7 @@ class Comment extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $perPage = 20;
 
     public function idea()
     {
@@ -21,5 +22,5 @@ class Comment extends Model
         $this->belongsTo(User::class);
     }
 
-    
+
 }

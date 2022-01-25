@@ -28,7 +28,7 @@
                         <div>&bull;</div>
                         <div>{{ $idea->category->name }}</div>
                         <div>&bull;</div>
-                        <div class="text-gray-900">{{ $idea->comments->count() }} comments</div>
+                        <div class="text-gray-900">{{ $idea->comments()->count() }} comments</div>
                     </div>
                     <div class="flex items-center space-x-2 mt-4 md:mt-0" x-data="{ isOpen: false }">
                         <div
@@ -123,7 +123,7 @@
     <div class="buttons-container flex items-center justify-between mt-6">
         <div class="flex flex-col md:flex-row items-center space-x-4 md:ml-6">
             <livewire:add-comment :idea="$idea" />
-            
+
             @admin
             <livewire:set-status :idea="$idea" />
             @endadmin
