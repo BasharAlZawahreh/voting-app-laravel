@@ -9,9 +9,13 @@ class IdeaComment extends Component
 {
     public $comment;
     public $ideaUserId;
-    protected $listeners = ['commentWasUpdated'];
+    protected $listeners = ['commentWasUpdated','commentWasMarkedAsSpam'];
 
     public function commentWasAdded()
+    {
+        $this->comment->refresh();
+    }
+    public function commentWasMarkedAsSpam()
     {
         $this->comment->refresh();
     }
