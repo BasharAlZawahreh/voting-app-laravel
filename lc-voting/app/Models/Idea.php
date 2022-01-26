@@ -53,7 +53,7 @@ class Idea extends Model
 
     public function comments()
     {
-        $this->hasMany(Comment::class);
+       return $this->hasMany(Comment::class);
     }
 
     public function isVotedByUser(?User $user)
