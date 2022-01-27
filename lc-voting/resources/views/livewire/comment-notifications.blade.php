@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false }"class="relative" >
+<div wire:poll="getNotificationCount" x-data="{ isOpen: false }"class="relative" >
     <button @click=
         "isOpen = !isOpen
         if (isOpen) {
@@ -29,9 +29,7 @@
             href="{{ route('idea.show', $notification->data['idea_slug']) }}"
                 @click.prevent="
                     isOpen = false
-
                     "
-
                     wire:click.prevent="markAsRead('{{$notification->id}}')"
                     class="flex hover:bg-gray-100 transition duration-150 ease-in px-5 py-3"
                     >
