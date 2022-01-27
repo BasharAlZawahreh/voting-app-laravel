@@ -1,5 +1,5 @@
 <div
-    id="comment-{{$comment->id}}"
+    id="comment-{{ $comment->id }}"
     class="@if ($comment->is_status_update) is-status-update {{ 'status-'.Str::kebab($comment->status->name)}}@endif comment-container relative bg-white rounded-xl flex transition duration-500 ease-in mt-4"
 >
     <div class="flex flex-col md:flex-row flex-1 px-4 py-6">
@@ -26,7 +26,7 @@
                 @endif
 
                 <div class="mt-4 md:mt-0">
-                    {{ $comment->body }}
+                    {!! nl2br(e($comment->body)) !!}
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                 </div>
                 @auth
                 <div
-                    class="flex items-center space-x-2"
+                    class="text-gray-900 flex items-center space-x-2"
                     x-data="{ isOpen: false }"
                 >
                     <div class="relative">

@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">
+        {{ $idea->title }} | Laracasts Voting
+    </x-slot>
     <div>
         <a href="{{ $backUrl }}" class="flex items-center font-semibold hover:underline">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -13,17 +16,9 @@
         :votesCount="$votesCount"
     />
 
-    <livewire:idea-comments :idea="$idea"/>
+    <livewire:idea-comments :idea="$idea" />
 
     <x-notification-success />
 
-
-    {{-- @push('modals') --}}
-    {{-- @endpush --}}
-
-  <x-modal-container :idea="$idea"/>
-
-
-
-
+    <x-modals-container :idea="$idea" />
 </x-app-layout>

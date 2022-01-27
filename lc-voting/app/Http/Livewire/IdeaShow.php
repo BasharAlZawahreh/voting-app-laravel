@@ -2,11 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\Exceptions\DublicateVoteException;
+use App\Exceptions\DuplicateVoteException;
 use App\Exceptions\VoteNotFoundException;
 use App\Http\Livewire\Traits\WithAuthRedirects;
 use App\Models\Idea;
-use App\Models\User;
 use Livewire\Component;
 
 class IdeaShow extends Component
@@ -16,24 +15,30 @@ class IdeaShow extends Component
     public $idea;
     public $votesCount;
     public $hasVoted;
+
     protected $listeners = [
         'statusWasUpdated',
+        'statusWasUpdatedError',
         'ideaWasUpdated',
         'ideaWasMarkedAsSpam',
         'ideaWasMarkedAsNotSpam',
         'commentWasAdded',
-        'commentWasDeleted'
+        'commentWasDeleted',
     ];
 
     public function mount(Idea $idea, $votesCount)
     {
         $this->idea = $idea;
         $this->votesCount = $votesCount;
-        $user = User::find(auth()->id());
-        $this->hasVoted = $idea->isVotedByUser($user);
+        $this->hasVoted = $idea->isVotedByUser(auth()->user());
     }
 
     public function statusWasUpdated()
+    {
+        $this->idea->refresh();
+    }
+
+    public function statusWasUpdatedError()
     {
         $this->idea->refresh();
     }
@@ -42,22 +47,27 @@ class IdeaShow extends Component
     {
         $this->idea->refresh();
     }
+
     public function ideaWasMarkedAsSpam()
     {
         $this->idea->refresh();
     }
+
     public function ideaWasMarkedAsNotSpam()
     {
         $this->idea->refresh();
     }
+
     public function commentWasAdded()
     {
         $this->idea->refresh();
     }
+
     public function commentWasDeleted()
     {
         $this->idea->refresh();
     }
+
     public function vote()
     {
         if (auth()->guest()) {
@@ -66,17 +76,19 @@ class IdeaShow extends Component
 
         if ($this->hasVoted) {
             try {
-                $this->idea->unvote();
+                $this->idea->removeVote(auth()->user());
             } catch (VoteNotFoundException $e) {
-                //Do Nothing
+                // do nothing
             }
+            $this->votesCount--;
             $this->hasVoted = false;
         } else {
             try {
-                $this->idea->vote(User::find(auth()->id()));
-            } catch (DublicateVoteException $e) {
-                //Do Nothing
+                $this->idea->vote(auth()->user());
+            } catch (DuplicateVoteException $e) {
+                // do nothing
             }
+            $this->votesCount++;
             $this->hasVoted = true;
         }
     }
